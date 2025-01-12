@@ -6,11 +6,11 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: 16636a958d1298d58415e2df59e7e15ef483ccc802b05a752cca31a002c4bd5c
 
 build:
-  number: 0
+  number: 1
   noarch: python
   script: {{ PYTHON }} -m pip install . -vv
 
@@ -18,10 +18,10 @@ requirements:
   host:
     - jupyter-packaging
     - pip
-    - python >=3.6
+    - python {{ python_min }}
   run:
     - jupyterlab >=3.0,<4
-    - python >=3.6
+    - python >={{ python_min }}
 
 test:
   commands:
@@ -33,6 +33,7 @@ test:
     - python -c "assert __import__('re').findall('{{ name }}.*v{{ version }}.*enabled.*ok.*{{ name }}', open('labextensions').read().lower())"
   requires:
     - pip
+    - python {{ python_min }}
 
 about:
   home: https://github.com/jupytercalpoly/jupyterlab-interactive-dashboard-editor
